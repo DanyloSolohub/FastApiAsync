@@ -4,7 +4,7 @@ from src.apps.accounts.api.v1.schemas.users import UserCreateSchema, UserUpdateS
 from src.apps.accounts.exceptions import INACTIVE_USER, USER_NOT_FOUND, USER_ALREADY_EXIST
 from src.database.models.users import User
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, insert
+from sqlalchemy import select, update
 from sqlalchemy.engine.cursor import CursorResult
 
 
@@ -42,11 +42,10 @@ class UserService:
         await self.session.commit()
         return await self.get_user_or_404(user_id=user.id)
 
-    async def update_user(self, user_id: int, user: UserUpdateSchema):
-        user = await self.get_user_or_404(user_id=user_id)
-        if not user.is_active:
-            raise INACTIVE_USER
-        return user
+    async def update_user(self, user_id: int, serialized_user: UserUpdateSchema):
+        user = await self.get_active_user(user_id=user_id)
+        await self.session.execute(update(User).values(**serialized_user.dict()))
+        return await self.get_active_user(user_id=user.id)
 
     async def remove_user(self, user_id: int):
         user: User = await self.get_user_or_404(user_id=user_id)

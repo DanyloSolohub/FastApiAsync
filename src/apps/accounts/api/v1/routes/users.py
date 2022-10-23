@@ -28,7 +28,7 @@ async def users(user: UserCreateSchema, session: AsyncSession = Depends(get_sess
 
 @user_router.patch('/{user_id}', response_model=UserSchema)
 async def users(user_id: int, user: UserUpdateSchema, session: AsyncSession = Depends(get_session)):
-    user = await UserService(session=session).update_user(user_id=user_id, user=user)
+    user = await UserService(session=session).update_user(user_id=user_id, serialized_user=user)
     return UserSchema(**user.__dict__)
 
 
