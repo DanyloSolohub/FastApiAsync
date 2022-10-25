@@ -9,7 +9,7 @@ from src.apps.accounts.services.auth import AuthService
 from src.database.models.users import User
 from src.database.session import get_session
 
-auth_router = APIRouter(tags=['auth'])
+auth_router = APIRouter(prefix='/accounts', tags=['auth'])
 
 
 @auth_router.post('/login', response_model=UserSchema)
