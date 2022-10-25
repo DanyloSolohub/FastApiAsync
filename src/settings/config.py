@@ -32,6 +32,11 @@ class GlobalConfig(BaseSettings):
     DB_ECHO_LOG: bool = True
     API_V1_STR = '/api/v1'
 
+    DOMAIN = os.getenv('DOMAIN')
+    API_AUDIENCE = os.getenv('API_AUDIENCE')
+    # ISSUER = os.getenv('ISSUER')
+    # ALGORITHMS = os.getenv('ALGORITHMS')
+
     @property
     def async_database_url(self) -> Optional[str]:
         return (

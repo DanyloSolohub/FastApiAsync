@@ -1,24 +1,16 @@
-from pydantic import BaseModel, EmailStr, validator
-import re
-from hashlib import sha256
+from typing import Optional
 
-from src.apps.accounts.exceptions import INCORRECT_PASSWORD
+from pydantic import BaseModel, EmailStr
 
 
 class UserBaseSchema(BaseModel):
     email: EmailStr
+    last_name: str = ''
+    first_name: str = ''
 
 
 class PasswordSchema(BaseModel):
     password: str
-
-    @validator('password')
-    def passwords_match(cls, password, **kwargs):
-        regex = r'((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,40})\S$'
-        result = re.findall(regex, password)
-        if not result:
-            raise INCORRECT_PASSWORD
-        return sha256(password.encode('utf-8')).hexdigest()
 
 
 class UserSchema(UserBaseSchema):
@@ -30,5 +22,8 @@ class UserCreateSchema(UserBaseSchema, PasswordSchema):
     is_active: bool = True
 
 
-class UserUpdateSchema(PasswordSchema):
-    is_active: bool = True
+class UserUpdateSchema(BaseModel):
+    passwd: Optional[str] = None
+    is_active: bool
+    last_name: str
+    first_name: str
