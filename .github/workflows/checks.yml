@@ -22,5 +22,5 @@ jobs:
           pip install -r requirements.txt
       - name: Run flake8
         run: |
-          cd project 
+          cd src 
           flake8 .
