@@ -18,6 +18,8 @@ pydantic = {extras = ["email"], version = "^1.10.2"}
 fastapi-pagination = "^0.10.0"
 PyJWT = "^2.6.0"
 fastapi-auth0 = "^0.3.0"
+flake8 = "^5.0.4"
+flake8-fastapi = "^0.7.0"
 
 [tool.poetry.dev-dependencies]
 

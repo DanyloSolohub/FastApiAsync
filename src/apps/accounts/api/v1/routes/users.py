@@ -22,13 +22,13 @@ async def users(session: AsyncSession = Depends(get_session), params: Params = D
 
 
 @user_router.post('/', response_model=UserSchema, status_code=status.HTTP_201_CREATED)
-async def users(user: UserCreateSchema, session: AsyncSession = Depends(get_session)):
+async def create_user(user: UserCreateSchema, session: AsyncSession = Depends(get_session)):
     user = await UserService(session=session).create_user(serialized_data=user)
     return UserSchema(**jsonable_encoder(user))
 
 
 @user_router.patch('/{user_id}', response_model=UserSchema, status_code=status.HTTP_200_OK)
-async def users(
+async def update_user(
         user_id: int,
         passwd: str = Body(None),
         is_active: bool = Body(None),
@@ -52,11 +52,11 @@ async def users(
 
 
 @user_router.get('/{user_id}', response_model=UserSchema)
-async def users(user_id: int, session: AsyncSession = Depends(get_session)):
+async def get_user(user_id: int, session: AsyncSession = Depends(get_session)):
     user = await UserService(session=session).get_active_user(user_id=user_id)
     return UserSchema(**jsonable_encoder(user))
 
 
 @user_router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
-async def users(user_id: int, session: AsyncSession = Depends(get_session)):
+async def delete_user(user_id: int, session: AsyncSession = Depends(get_session)):
     await UserService(session=session).remove_user(user_id=user_id)
