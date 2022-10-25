@@ -9,7 +9,7 @@ from src.apps.accounts.services.users import UserService
 from src.database.session import get_session
 from fastapi.encoders import jsonable_encoder
 
-user_router = APIRouter()
+user_router = APIRouter(tags=['auth'])
 
 
 @user_router.get('/', response_model=Page[UserSchema], status_code=status.HTTP_200_OK)
