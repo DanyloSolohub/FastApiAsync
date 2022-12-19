@@ -26,7 +26,7 @@ def get_application() -> FastAPI:
         title=configuration.TITLE,
         description=configuration.DESCRIPTION,
         debug=configuration.DEBUG,
-        docs_url=os.getenv('SWAGGER_URL', None),
+        # docs_url=os.getenv('SWAGGER_URL', None),
         # redoc_url=None,
     )
     application.include_router(api_v1_router, prefix=configuration.API_V1_STR)
